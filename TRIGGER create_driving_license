@@ -1,0 +1,11 @@
+CREATE TRIGGER create_driving_license
+ON Request_Gosuslugi
+AFTER INSERT
+AS
+BEGIN
+    -- Внутри триггера используем ключевое слово INSERTED для обращения к данным, вставленным в таблицу
+    INSERT INTO Driving_License (name_cadet, number_driving_license, category_of_driving_license, id_Cadet)
+    SELECT 'New Cadet', id_Request, 'None', id_Cadet
+    FROM INSERTED
+    WHERE verified_acc = '+';
+END;
