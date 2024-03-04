@@ -1,0 +1,20 @@
+CREATE TRIGGER create1_request_for_gosuslugi
+ON Cadet
+AFTER INSERT
+AS
+BEGIN
+
+ DECLARE @randomNumber FLOAT;
+    SET @randomNumber = RAND();
+
+    DECLARE @verifiedAcc NCHAR(1);
+    IF @randomNumber < 0.5
+        SET @verifiedAcc = '+';
+    ELSE
+        SET @verifiedAcc = '-';
+
+    INSERT INTO Request_Gosuslugi (verified_acc, id_Cadet)
+    SELECT @verifiedAcc, id_Cadet
+    FROM INSERTED;
+
+END;
